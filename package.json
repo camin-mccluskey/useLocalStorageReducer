@@ -1,6 +1,6 @@
 {
-  "name": "pkg-name",
-  "version": "0.0.0",
+  "name": "useLocalStorageReducer",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "description": "",
@@ -12,16 +12,19 @@
     "dist"
   ],
   "keywords": [
-    "bun"
+    "localstorage",
+    "react",
+    "useReducer",
+    "typescript"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/wobsoriano/pkg-name#readme",
+  "homepage": "https://github.com/camin-mccluskey/useLocalStorageReducer#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wobsoriano/pkg-name.git"
+    "url": "git+https://github.com/camin-mccluskey/useLocalStorageReducer.git"
   },
-  "bugs": "https://github.com/wobsoriano/pkg-name/issues",
-  "author": "Robert Soriano <sorianorobertc@gmail.com>",
+  "bugs": "https://github.com/camin-mccluskey/useLocalStorageReducer/issues",
+  "author": "Camin McCluskey <camin@stackfix.com>",
   "peerDependencies": {
     "react": "^17"
   },
