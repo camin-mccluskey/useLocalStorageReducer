@@ -31,6 +31,10 @@ jobs:
         name: Install dependencies
         run: |
           bun install
+      - id: lint-format
+        name: Lint & Format
+        run: |
+          bunx biome check --write ./src ./test
       - id: test
         name: Run test
         run: |
