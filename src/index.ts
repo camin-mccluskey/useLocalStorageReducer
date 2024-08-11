@@ -2,7 +2,7 @@ import { useCallback, useEffect, type Reducer, useReducer } from "react";
 import { useLocalStorage } from "usehooks-ts";
 
 type SyncAction<S> = { type: "sync"; payload: S };
-type Reducer<S, A> = (state: S, action: A | SyncAction<S>) => S;
+type AugmentedReducer<S, A> = (state: S, action: A | SyncAction<S>) => S;
 export type ReducerMiddlewareFn<S, A> = (
   action: A | SyncAction<S>,
   state?: S,
@@ -54,7 +54,7 @@ export const useLocalStorageReducer = <S, A extends Object>(
 
 export const useReducerWithMiddleware = <S, A>(
   // TODO: creae a type like Reducer for this
-  reducer: (state: S, action: A | SyncAction<S>) => S,
+  reducer: AugmentedReducer<S, A>,
   initialState: S,
   middlewareFns: Array<ReducerMiddlewareFn<S, A>>,
   afterwareFns: Array<ReducerMiddlewareFn<S, A>>,
