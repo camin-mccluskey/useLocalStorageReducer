@@ -34,7 +34,7 @@ jobs:
       - id: lint-format
         name: Lint & Format
         run: |
-          bunx biome check --write ./src ./test
+          bunx biome check --write ./*
       - id: test
         name: Run test
         run: |
