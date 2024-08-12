@@ -9,7 +9,7 @@ export type ReducerMiddlewareFn<S, A> = (
   state?: S,
 ) => void;
 
-export const useLocalStorageReducer = <S, A extends Object>(
+export const useLocalStorageReducer = <S, A>(
   key: string,
   reducer: Reducer<S, A>,
   initialState: S | (() => S),
@@ -28,7 +28,12 @@ export const useLocalStorageReducer = <S, A extends Object>(
 
   const localStorageReducer = useCallback(
     (state: S, action: A | SyncAction<S>) => {
-      if ("type" in action && action.type === SYNC_ACTION_TYPE) {
+      if (
+        !!action &&
+        typeof action === "object" &&
+        "type" in action &&
+        action.type === SYNC_ACTION_TYPE
+      ) {
         return action.payload;
       }
       const newState = reducer(state, action as A);
@@ -47,7 +52,7 @@ export const useLocalStorageReducer = <S, A extends Object>(
 
   // resync the reducer state with savedState
   useEffect(() => {
-    dispatch({ type: "sync", payload: savedState });
+    dispatch({ type: "_sync", payload: savedState });
   }, [savedState, dispatch]);
 
   return [savedState, dispatch] as const;
@@ -64,9 +69,13 @@ export const useReducerWithMiddleware = <S, A>(
 
   const dispatchWithMiddleware = useCallback(
     (action: A | SyncAction<S>) => {
-      middlewareFns.forEach((middlewareFn) => middlewareFn(action, state));
+      for (const mFn of middlewareFns) {
+        mFn(action, state);
+      }
       dispatch(action);
-      afterwareFns.forEach((afterwareFn) => afterwareFn(action, state));
+      for (const aFn of afterwareFns) {
+        aFn(action, state);
+      }
     },
     [middlewareFns, afterwareFns, state],
   );

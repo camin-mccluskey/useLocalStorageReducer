@@ -6,6 +6,10 @@
   "description": "",
   "scripts": {
     "build": "bun run build.mjs",
+    "lint:check": "biome lint ./src",
+    "lint:fix": "biome lint --write ./src",
+    "format:check": "biome format ./src",
+    "format:fix": "biome format --write ./src",
     "prepublishOnly": "bun run build"
   },
   "files": [
