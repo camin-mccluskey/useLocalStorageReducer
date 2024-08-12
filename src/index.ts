@@ -16,7 +16,13 @@ export const useLocalStorageReducer = <S, A>(
   middlewareFns: Array<ReducerMiddlewareFn<S, A>> = [],
   afterwareFns: Array<ReducerMiddlewareFn<S, A>> = [],
   options?: {
-    // TODO: may want to provide customer serializer/deserializer here
+    /** A function to serialize the value before storing it. */
+    serializer?: (value: S) => string;
+    /** A function to deserialize the stored value. */
+    deserializer?: (value: string) => S;
+    /**
+     * If `true` (default), the hook will initialize reading the local storage. In SSR, you should set it to `false`, returning the initial value initially.
+     */
     initializeWithValue?: boolean;
   },
 ) => {
