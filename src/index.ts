@@ -59,7 +59,6 @@ export const useLocalStorageReducer = <S, A>(
 };
 
 export const useReducerWithMiddleware = <S, A>(
-  // TODO: creae a type like Reducer for this
   reducer: AugmentedReducer<S, A>,
   initialState: S,
   middlewareFns: Array<ReducerMiddlewareFn<S, A>>,
