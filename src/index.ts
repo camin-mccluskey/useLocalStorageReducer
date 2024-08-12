@@ -1,13 +1,23 @@
-import { type Reducer, useCallback, useEffect, useReducer } from "react";
+import { type Reducer, useCallback, useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
+import { isInternalSyncAction } from "./utils";
+import {
+  useReducerWithMiddleware,
+  type ReducerMiddlewareFn,
+} from "./useReducerWithMiddleware";
 
-const SYNC_ACTION_TYPE = "_sync";
-type SyncAction<S> = { type: typeof SYNC_ACTION_TYPE; payload: S };
-type AugmentedReducer<S, A> = (state: S, action: A | SyncAction<S>) => S;
-export type ReducerMiddlewareFn<S, A> = (
-  action: A | SyncAction<S>,
-  state?: S,
-) => void;
+export const SYNC_ACTION_TYPE = "_sync";
+export type SyncAction<S> = { type: typeof SYNC_ACTION_TYPE; payload: S };
+type useLocalStorageReducerOptions<S> = {
+  /** A function to serialize the value before storing it. */
+  serializer?: (value: S) => string;
+  /** A function to deserialize the stored value. */
+  deserializer?: (value: string) => S;
+  /**
+   * If `true` (default), the hook will initialize reading the local storage. In SSR, you should set it to `false`, returning the initial value initially.
+   */
+  initializeWithValue?: boolean;
+};
 
 export const useLocalStorageReducer = <S, A>(
   key: string,
@@ -15,16 +25,7 @@ export const useLocalStorageReducer = <S, A>(
   initialState: S | (() => S),
   middlewareFns: Array<ReducerMiddlewareFn<S, A>> = [],
   afterwareFns: Array<ReducerMiddlewareFn<S, A>> = [],
-  options?: {
-    /** A function to serialize the value before storing it. */
-    serializer?: (value: S) => string;
-    /** A function to deserialize the stored value. */
-    deserializer?: (value: string) => S;
-    /**
-     * If `true` (default), the hook will initialize reading the local storage. In SSR, you should set it to `false`, returning the initial value initially.
-     */
-    initializeWithValue?: boolean;
-  },
+  options?: useLocalStorageReducerOptions<S>,
 ) => {
   const [savedState, setSavedState] = useLocalStorage<S>(
     key,
@@ -34,12 +35,7 @@ export const useLocalStorageReducer = <S, A>(
 
   const localStorageReducer = useCallback(
     (state: S, action: A | SyncAction<S>) => {
-      if (
-        !!action &&
-        typeof action === "object" &&
-        "type" in action &&
-        action.type === SYNC_ACTION_TYPE
-      ) {
+      if (isInternalSyncAction(action)) {
         return action.payload;
       }
       const newState = reducer(state, action as A);
@@ -62,28 +58,4 @@ export const useLocalStorageReducer = <S, A>(
   }, [savedState, dispatch]);
 
   return [savedState, dispatch] as const;
-};
-
-export const useReducerWithMiddleware = <S, A>(
-  reducer: AugmentedReducer<S, A>,
-  initialState: S,
-  middlewareFns: Array<ReducerMiddlewareFn<S, A>>,
-  afterwareFns: Array<ReducerMiddlewareFn<S, A>>,
-) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  const dispatchWithMiddleware = useCallback(
-    (action: A | SyncAction<S>) => {
-      for (const mFn of middlewareFns) {
-        mFn(action, state);
-      }
-      dispatch(action);
-      for (const aFn of afterwareFns) {
-        aFn(action, state);
-      }
-    },
-    [middlewareFns, afterwareFns, state],
-  );
-
-  return [state, dispatchWithMiddleware] as const;
 };
