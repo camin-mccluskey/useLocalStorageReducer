@@ -1,4 +1,4 @@
-import { describe, expect, test, beforeEach } from 'bun:test'
+import { describe, expect, test, beforeEach, mock } from 'bun:test'
 import { act, renderHook } from '@testing-library/react'
 import { useLocalStorageReducer } from '../src/'
 
@@ -112,4 +112,46 @@ describe('useLocalStorageReducer', () => {
 			expect(afterLSValue).toBe(expectedValue.toString())
 		},
 	)
+
+	test('Runs middlewares on action', () => {
+		const beforeFunc = mock((action: TestAction, state: number) =>
+			console.log(
+				'Beforeware running for action: ',
+				action,
+				'on state: ',
+				state,
+			),
+		)
+		const afterFunc = mock((action: TestAction, state: number) =>
+			console.log(
+				'Afterware running for action: ',
+				action,
+				'on state: ',
+				state,
+			),
+		)
+		const { result } = renderHook(() =>
+			useLocalStorageReducer(
+				TEST_LS_KEY,
+				TEST_REDUCER,
+				TEST_INITIAL_STATE,
+				[beforeFunc],
+				[afterFunc],
+			),
+		)
+		act(() => {
+			const [, dispatch] = result.current
+			dispatch({ type: 'inc' })
+		})
+		expect(beforeFunc).toHaveBeenCalledTimes(1)
+		expect(beforeFunc).toHaveBeenLastCalledWith(
+			{ type: 'inc' },
+			TEST_INITIAL_STATE,
+		)
+		expect(afterFunc).toHaveBeenCalledTimes(1)
+		expect(afterFunc).toHaveBeenLastCalledWith(
+			{ type: 'inc' },
+			TEST_INITIAL_STATE,
+		)
+	})
 })
