@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'bun:test'
-import { renderHook } from '@testing-library/react'
+import { describe, expect, test } from 'bun:test'
+import { act, renderHook } from '@testing-library/react'
 import { useLocalStorageReducer } from '../src/'
 
 type TestAction =
@@ -23,7 +23,7 @@ const TEST_REDUCER = (state: number, action: TestAction) => {
 }
 
 describe('useLocalStorageReducer', () => {
-	it('Initialises with Local Storage value by default', () => {
+	test('Initialises with Local Storage value by default', () => {
 		const { result } = renderHook(() =>
 			useLocalStorageReducer(TEST_LS_KEY, TEST_REDUCER, TEST_INITIAL_STATE),
 		)
@@ -31,7 +31,7 @@ describe('useLocalStorageReducer', () => {
 		expect(state).toBe(0)
 	})
 
-	it('Initialises with Local Storage value when initializeWithValue is true', () => {
+	test('Initialises with Local Storage value when initializeWithValue is true', () => {
 		const { result } = renderHook(() =>
 			useLocalStorageReducer(
 				TEST_LS_KEY,
@@ -46,7 +46,7 @@ describe('useLocalStorageReducer', () => {
 		expect(state).toBe(0)
 	})
 
-	it('Initialises with initial value when initializeWithValue is false', () => {
+	test('Initialises with initial value when initializeWithValue is false', () => {
 		const { result } = renderHook(() =>
 			useLocalStorageReducer(
 				TEST_LS_KEY,
