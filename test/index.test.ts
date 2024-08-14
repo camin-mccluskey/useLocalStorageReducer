@@ -27,7 +27,7 @@ describe('useLocalStorageReducer', () => {
 		window.localStorage.clear()
 	})
 
-	test('Initialises with Local Storage value by default', () => {
+	test('Initialises with LocalStorage value by default', () => {
 		const TEST_LS_VALUE = 10
 		window.localStorage.setItem(TEST_LS_KEY, TEST_LS_VALUE.toString())
 		const { result } = renderHook(() =>
@@ -37,7 +37,7 @@ describe('useLocalStorageReducer', () => {
 		expect(state).toBe(TEST_LS_VALUE)
 	})
 
-	test('Initialises with Local Storage value when initializeWithValue is true', () => {
+	test('Initialises with LocalStorage value when initializeWithValue is true', () => {
 		const TEST_LS_VALUE = 10
 		window.localStorage.setItem(TEST_LS_KEY, TEST_LS_VALUE.toString())
 		const { result } = renderHook(() =>
@@ -54,7 +54,7 @@ describe('useLocalStorageReducer', () => {
 		expect(state).toBe(TEST_LS_VALUE)
 	})
 
-	test('Settles to Local Storage value when initializeWithValue is false', () => {
+	test('Settles to LocalStorage value when initializeWithValue is false', () => {
 		const TEST_LS_VALUE = 10
 		window.localStorage.setItem(TEST_LS_KEY, TEST_LS_VALUE.toString())
 		const { result } = renderHook(() =>
