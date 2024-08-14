@@ -45,7 +45,7 @@ export const useLocalStorageReducer = <S, A>(
 		[reducer, setSavedState],
 	)
 
-	const [_, dispatch] = useReducerWithMiddleware(
+	const [_, _dispatch] = useReducerWithMiddleware(
 		localStorageReducer,
 		savedState,
 		middlewareFns,
@@ -54,8 +54,13 @@ export const useLocalStorageReducer = <S, A>(
 
 	// resync the reducer state with savedState
 	useEffect(() => {
-		dispatch({ type: '_sync', payload: savedState })
-	}, [savedState, dispatch])
+		_dispatch({ type: '_sync', payload: savedState })
+	}, [savedState, _dispatch])
 
-	return [savedState, dispatch] as const
+	// remove the ability for clients to reset state with internal type: '_sync' action
+	const consumerDispatch = (action: A) => {
+		_dispatch(action)
+	}
+
+	return [savedState, consumerDispatch] as const
 }

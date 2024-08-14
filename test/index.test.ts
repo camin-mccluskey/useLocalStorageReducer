@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'bun:test'
+import { describe, expect, test, beforeEach } from 'bun:test'
 import { act, renderHook } from '@testing-library/react'
 import { useLocalStorageReducer } from '../src/'
 
@@ -23,15 +23,23 @@ const TEST_REDUCER = (state: number, action: TestAction) => {
 }
 
 describe('useLocalStorageReducer', () => {
+	beforeEach(() => {
+		window.localStorage.clear()
+	})
+
 	test('Initialises with Local Storage value by default', () => {
+		const TEST_LS_VALUE = 10
+		window.localStorage.setItem(TEST_LS_KEY, TEST_LS_VALUE.toString())
 		const { result } = renderHook(() =>
 			useLocalStorageReducer(TEST_LS_KEY, TEST_REDUCER, TEST_INITIAL_STATE),
 		)
-		const [state, _] = result.current
-		expect(state).toBe(0)
+		const [state] = result.current
+		expect(state).toBe(TEST_LS_VALUE)
 	})
 
 	test('Initialises with Local Storage value when initializeWithValue is true', () => {
+		const TEST_LS_VALUE = 10
+		window.localStorage.setItem(TEST_LS_KEY, TEST_LS_VALUE.toString())
 		const { result } = renderHook(() =>
 			useLocalStorageReducer(
 				TEST_LS_KEY,
@@ -42,11 +50,13 @@ describe('useLocalStorageReducer', () => {
 				{ initializeWithValue: true },
 			),
 		)
-		const [state, _] = result.current
-		expect(state).toBe(0)
+		const [state] = result.current
+		expect(state).toBe(TEST_LS_VALUE)
 	})
 
-	test('Initialises with initial value when initializeWithValue is false', () => {
+	test('Settles to Local Storage value when initializeWithValue is false', () => {
+		const TEST_LS_VALUE = 10
+		window.localStorage.setItem(TEST_LS_KEY, TEST_LS_VALUE.toString())
 		const { result } = renderHook(() =>
 			useLocalStorageReducer(
 				TEST_LS_KEY,
@@ -57,11 +67,49 @@ describe('useLocalStorageReducer', () => {
 				{ initializeWithValue: false },
 			),
 		)
-		const [state, _] = result.current
-		expect(state).toBe(0)
+		const [state] = result.current
+		expect(state).toBe(TEST_LS_VALUE)
 	})
-})
 
-// act(() => {
-//     result.current.dispatch()
-//   })
+	const INITIAL_LS_VALUE = 10
+	test.each([
+		['inc' as const, INITIAL_LS_VALUE + 1],
+		['dec' as const, INITIAL_LS_VALUE - 1],
+		['set' as const, 99],
+	])(
+		'Persists (to LocalStorage) and returns new reducer state after action dispatch',
+		(action, expectedValue) => {
+			window.localStorage.setItem(TEST_LS_KEY, INITIAL_LS_VALUE.toString())
+			const { result: beforeResult } = renderHook(() =>
+				useLocalStorageReducer(
+					TEST_LS_KEY,
+					TEST_REDUCER,
+					TEST_INITIAL_STATE,
+					[],
+					[],
+				),
+			)
+			act(() => {
+				const [, dispatch] = beforeResult.current
+				if (action === 'set') {
+					dispatch({ type: action, value: expectedValue })
+				} else {
+					dispatch({ type: action })
+				}
+			})
+			const { result: afterResult } = renderHook(() =>
+				useLocalStorageReducer(
+					TEST_LS_KEY,
+					TEST_REDUCER,
+					TEST_INITIAL_STATE,
+					[],
+					[],
+				),
+			)
+			const [state] = afterResult.current
+			expect(state).toBe(expectedValue)
+			const afterLSValue = window.localStorage.getItem(TEST_LS_KEY)
+			expect(afterLSValue).toBe(expectedValue.toString())
+		},
+	)
+})
