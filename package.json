@@ -1,6 +1,6 @@
 {
 	"name": "use-localstorage-reducer",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"description": "React hook to persist reduced state to LocalStorage. Conforms to the useReducer API with persistence. SSR compatible and typesafe",
