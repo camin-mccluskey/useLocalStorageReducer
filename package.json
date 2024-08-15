@@ -1,53 +1,46 @@
 {
-  "name": "use-localstorage-reducer",
-  "version": "0.0.1",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "description": "React hook to persist reduced state to LocalStorage. Conforms to the useReducer API with persistence. SSR compatible and typesafe",
-  "scripts": {
-    "build": "bun run build.mjs",
-    "lint:check": "biome lint ./src",
-    "lint:fix": "biome lint --write ./src",
-    "format:check": "biome format ./src",
-    "format:fix": "biome format --write ./src",
-    "version": "changeset version",
-    "changeset": "changeset",
-    "release": "bun run build lint:check && changeset publish"
-  },
-  "files": [
-    "dist"
-  ],
-  "keywords": [
-    "LocalStorage",
-    "React",
-    "useReducer",
-    "Typescript"
-  ],
-  "license": "MIT",
-  "homepage": "https://github.com/camin-mccluskey/useLocalStorageReducer#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/camin-mccluskey/useLocalStorageReducer.git"
-  },
-  "bugs": "https://github.com/camin-mccluskey/useLocalStorageReducer/issues",
-  "author": "Camin McCluskey <camin@stackfix.com>",
-  "peerDependencies": {
-    "react": "^18"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.8.3",
-    "@changesets/cli": "^2.27.7",
-    "@happy-dom/global-registrator": "^14.12.3",
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.0.0",
-    "@types/bun": "^1.0.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "bun-plugin-dts": "^0.2.1",
-    "react-test-renderer": "^18.0.0",
-    "typescript": "^5.2.2"
-  },
-  "dependencies": {
-    "usehooks-ts": "^3.1.0"
-  }
+	"name": "use-localstorage-reducer",
+	"version": "0.0.1",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"description": "React hook to persist reduced state to LocalStorage. Conforms to the useReducer API with persistence. SSR compatible and typesafe",
+	"scripts": {
+		"build": "bun run build.mjs",
+		"lint:check": "biome lint .",
+		"lint:fix": "biome lint --write .",
+		"format:check": "biome format .",
+		"format:fix": "biome format --write .",
+		"version": "changeset version",
+		"changeset": "changeset",
+		"release": "bun run build lint:check format:check && changeset publish"
+	},
+	"files": ["dist/"],
+	"keywords": ["LocalStorage", "React", "useReducer", "Typescript"],
+	"license": "MIT",
+	"homepage": "https://github.com/camin-mccluskey/useLocalStorageReducer#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/camin-mccluskey/useLocalStorageReducer.git"
+	},
+	"bugs": "https://github.com/camin-mccluskey/useLocalStorageReducer/issues",
+	"author": "Camin McCluskey <camin@stackfix.com>",
+	"peerDependencies": {
+		"react": "^18"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.8.3",
+		"@changesets/cli": "^2.27.7",
+		"@happy-dom/global-registrator": "^14.12.3",
+		"@testing-library/dom": "^10.4.0",
+		"@testing-library/react": "^16.0.0",
+		"@types/bun": "^1.0.0",
+		"@types/react": "^18.3.3",
+		"@types/react-dom": "^18.3.0",
+		"bun-plugin-dts": "^0.2.1",
+		"react-test-renderer": "^18.0.0",
+		"typescript": "^5.2.2"
+	},
+	"dependencies": {
+		"usehooks-ts": "^3.1.0"
+	}
 }

@@ -14,5 +14,10 @@
 			"quoteStyle": "single",
 			"semicolons": "asNeeded"
 		}
+	},
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
 	}
 }
