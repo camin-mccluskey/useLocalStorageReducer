@@ -1,6 +1,6 @@
 {
 	"name": "use-localstorage-reducer",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"description": "React hook to persist reduced state to LocalStorage. Conforms to the useReducer API with persistence. SSR compatible and typesafe",
@@ -10,13 +10,20 @@
 		"lint:fix": "biome lint --write .",
 		"format:check": "biome format .",
 		"format:fix": "biome format --write .",
-    "check:fix": "biome check --write .",
+		"check:fix": "biome check --write .",
 		"version": "changeset version",
 		"changeset": "changeset",
 		"release": "bun run build lint:check format:check && changeset publish"
 	},
-	"files": ["dist/"],
-	"keywords": ["LocalStorage", "React", "useReducer", "Typescript"],
+	"files": [
+		"dist/"
+	],
+	"keywords": [
+		"LocalStorage",
+		"React",
+		"useReducer",
+		"Typescript"
+	],
 	"license": "MIT",
 	"homepage": "https://github.com/camin-mccluskey/useLocalStorageReducer#readme",
 	"repository": {
