@@ -15,7 +15,14 @@
 		"changeset": "changeset",
 		"release": "bun run build lint:check format:check && changeset publish"
 	},
-	"files": ["dist/"],
+	"files": ["dist/", 
+    "README.md",
+    "package.json",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
 	"keywords": ["LocalStorage", "React", "useReducer", "Typescript"],
 	"license": "MIT",
 	"homepage": "https://github.com/camin-mccluskey/useLocalStorageReducer#readme",
