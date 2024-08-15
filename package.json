@@ -15,7 +15,8 @@
 		"changeset": "changeset",
 		"release": "bun run build lint:check format:check && changeset publish"
 	},
-	"files": ["dist/", 
+	"files": [
+    "dist/",
     "README.md",
     "package.json",
     "LICENSE"
