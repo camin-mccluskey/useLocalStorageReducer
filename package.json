@@ -10,6 +10,7 @@
 		"lint:fix": "biome lint --write .",
 		"format:check": "biome format .",
 		"format:fix": "biome format --write .",
+    "check:fix": "biome check --write .",
 		"version": "changeset version",
 		"changeset": "changeset",
 		"release": "bun run build lint:check format:check && changeset publish"

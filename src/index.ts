@@ -1,10 +1,10 @@
 import { type Reducer, useCallback, useEffect } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
-import { isInternalSyncAction } from './utils'
 import {
-	useReducerWithMiddleware,
 	type ReducerMiddlewareFn,
+	useReducerWithMiddleware,
 } from './useReducerWithMiddleware'
+import { isInternalSyncAction } from './utils'
 
 export const SYNC_ACTION_TYPE = '_sync'
 export type SyncAction<S> = { type: typeof SYNC_ACTION_TYPE; payload: S }

@@ -1,4 +1,4 @@
-import { type SyncAction, SYNC_ACTION_TYPE } from '.'
+import { SYNC_ACTION_TYPE, type SyncAction } from '.'
 
 export const isInternalSyncAction = <S, A>(
 	action: A | SyncAction<S>,
