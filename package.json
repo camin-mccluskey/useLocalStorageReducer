@@ -1,6 +1,7 @@
 {
   "name": "use-localstorage-reducer",
   "version": "0.0.1",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
