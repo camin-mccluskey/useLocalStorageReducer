@@ -1,24 +1,31 @@
-# bun starter
+# use-localstorage-reducer 
 
-## Getting Started
+Sync the state of a React reducer with LocalStorage. Typesafe and SSR compatible.
 
-Click the [Use this template](https://github.com/wobsoriano/bun-lib-starter/generate) button to create a new repository with the contents starter.
-
-OR
-
-Run `bun create wobsoriano/bun-lib-starter ./my-lib`.
-
-## Setup
+## Installation
 
 ```bash
-# install dependencies
-bun install
+npm install use-localstorage-reducer
+```
 
-# test the app
-bun test
+## Usage
 
-# build the app, available under dist
-bun run build
+```tsx
+import { useLocalStorageReducer } from 'use-localstorage-reducer'
+
+function App() {
+  const [state, dispatch] = useLocalStorageReducer(
+	'storage-key',
+	reducerFunc,
+  { name: '', age: 0}, // initial state
+	[], // optional array of middleware functions
+	[], // optional array of afterware functions
+  {
+    serializer: (value: S) => JSON.stringify(value), // optional serializer function
+    deserializer?: (value: string) => JSON.parse(value), // optional deserializer function
+    initializeWithValue: true // optional initialize with value from LocalStorage (default: true, set false for SSR)
+  },
+}
 ```
 
 ## License
